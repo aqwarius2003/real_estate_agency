@@ -2,5 +2,8 @@ from django.contrib import admin
 
 from .models import Flat
 
+class FlatAdmin(admin.ModelAdmin):
+    list_display = ('town', 'address', 'owner')
+    search_fields = ['town', 'address', 'owner']  # Поля для поиска: город, адрес, имя владельца
 
-admin.site.register(Flat)
+admin.site.register(Flat, FlatAdmin)

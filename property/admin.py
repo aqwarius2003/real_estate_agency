@@ -26,7 +26,7 @@ admin.site.register(Flat, FlatAdmin)
 @admin.register(Complaint)
 class ComplaintAdmin(admin.ModelAdmin):
     list_display = ('user', 'flat', 'text')
-    raw_id_fields = ('flat',)  # Добавляем raw_id_fields для поля ForeignKey flat
+    raw_id_fields = ('flat',)  # raw_id_fields для поля ForeignKey flat
     verbose_name = 'Жалоба'
     verbose_name_plural = 'Жалобы'
 

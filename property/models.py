@@ -49,7 +49,11 @@ class Flat(models.Model):
         db_index=True)
     new_building = models.BooleanField(verbose_name='New_building',
                                        null=True, blank=True)
-    likes = models.ManyToManyField(User, through='Like', related_name='liked_flates')
+    likes = models.ManyToManyField(User, through='Like', blank=True, related_name='liked_flates', verbose_name='Кто лайкнул',)
+
+    @property
+    def likes_count(self):
+        return self.likes.count()
 
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
@@ -70,6 +74,9 @@ class Complaint(models.Model):
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE) #или on_delete=models.SET_NULL, null=True? как правильнее?
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE)  # Квартира, которой поставлен лайк
+
+    class Meta:
+        unique_together = ('user', 'flat') # гарантирует - пользователь может лайкнуть одну квартиру только один раз
 
 
     def __str__(self):

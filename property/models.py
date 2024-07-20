@@ -1,11 +1,12 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
+    owners_phonenumber = PhoneNumberField('Нормализованный номер владельца', region="RU", blank=True, default='+7')
     created_at = models.DateTimeField(
         'Когда создано объявление',
         default=timezone.now,
@@ -49,7 +50,8 @@ class Flat(models.Model):
         db_index=True)
     new_building = models.BooleanField(verbose_name='New_building',
                                        null=True, blank=True)
-    likes = models.ManyToManyField(User, through='Like', blank=True, related_name='liked_flates', verbose_name='Кто лайкнул',)
+    likes = models.ManyToManyField(User, through='Like', blank=True, related_name='liked_flates',
+                                   verbose_name='Кто лайкнул', )
 
     @property
     def likes_count(self):
@@ -71,13 +73,14 @@ class Complaint(models.Model):
     def __str__(self):
         return f'Жалоба от {self.user.username} \nна квартиру {self.flat}'
 
+
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE) #или on_delete=models.SET_NULL, null=True? как правильнее?
+    user = models.ForeignKey(User,
+                             on_delete=models.CASCADE)  # или on_delete=models.SET_NULL, null=True? как правильнее?
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE)  # Квартира, которой поставлен лайк
 
     class Meta:
-        unique_together = ('user', 'flat') # гарантирует - пользователь может лайкнуть одну квартиру только один раз
-
+        unique_together = ('user', 'flat')  # гарантирует - пользователь может лайкнуть одну квартиру только один раз
 
     def __str__(self):
         return f'{self.user.username} лайкнул {self.flat.address}'

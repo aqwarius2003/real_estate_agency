@@ -19,7 +19,7 @@ class Meta:
 
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
-    list_display = ('town', 'address', 'new_building', 'owner', 'likes_count')
+    list_display = ('town', 'address', 'new_building', 'owner', 'owners_phonenumber', 'owner_pure_phone', 'likes_count')
     search_fields = ['town', 'address', 'owner']  # Поля для поиска: город, адрес, имя владельца
     readonly_fields = ['created_at', 'likes_count']
     list_editable = ('new_building',)

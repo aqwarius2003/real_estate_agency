@@ -1,4 +1,7 @@
 Django==2.2.24
 environs==5.2.1
 dj-database-url==0.5.0
-pip install "django-phonenumber-field[phonenumberslite]"
+django-phonenumber-field[phonenumberslite]
+
+phonenumbers~=8.13.40
+phonenumberslite~=8.13.40

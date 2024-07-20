@@ -85,3 +85,21 @@ class Like(models.Model):
 
     def __str__(self):
         return f'{self.user.username} лайкнул {self.flat.address}'
+
+
+class Owner(models.Model):
+    owner = models.CharField('ФИО владельца', max_length=200, db_index=True)
+    owners_phonenumber = models.CharField('Номер владельца', max_length=20, db_index=True)
+    owner_pure_phone = PhoneNumberField('Нормализованный номер владельца', region="RU", blank=True)
+    flat = models.ManyToManyField(
+        Flat,
+        related_name='flat_owners',
+        verbose_name='Квартиры в собственности'
+    )
+
+    def __str__(self) -> str:
+        return f'{self.owner}'
+
+    class Meta:
+        verbose_name = 'Владелец'
+        verbose_name_plural = 'Владельцы'

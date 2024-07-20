@@ -1,11 +1,12 @@
 from django.contrib import admin
 
-from .models import Flat, Complaint, Like
+from .models import Flat, Complaint, Like, Owner
 
 
 class ComplaintInline(admin.TabularInline):
     model = Complaint
     extra = 0
+
 
 class LikeInline(admin.TabularInline):
     model = Like
@@ -17,6 +18,7 @@ class Meta:
     verbose_name = 'Жалоба'
     verbose_name_plural = 'Жалобы'
 
+
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
     list_display = ('town', 'address', 'new_building', 'owner', 'owners_phonenumber', 'owner_pure_phone', 'likes_count')
@@ -25,6 +27,7 @@ class FlatAdmin(admin.ModelAdmin):
     list_editable = ('new_building',)
     list_filter = ('new_building',)
     inlines = [ComplaintInline, LikeInline]
+
 
 # admin.site.register(Flat, FlatAdmin)
 
@@ -44,3 +47,9 @@ class ComplaintAdmin(admin.ModelAdmin):
 class LikeAdmin(admin.ModelAdmin):
     # list_display = ('user', 'flat')
     raw_id_fields = ('user', 'flat')
+
+
+@admin.register(Owner)
+class OwnerAdmin(admin.ModelAdmin):
+    list_display = ('owner', 'owners_phonenumber', 'owner_pure_phone')
+    raw_id_fields = ('flat',)

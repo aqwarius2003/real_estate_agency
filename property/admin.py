@@ -19,14 +19,22 @@ class Meta:
     verbose_name_plural = 'Жалобы'
 
 
+class OwnerInline(admin.TabularInline):
+    model = Owner.flat.through
+    raw_id_fields = ('owner',)
+    extra = 0
+    verbose_name = 'Владелец'
+    verbose_name_plural = 'Владельцы'
+
+
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
     list_display = ('town', 'address', 'new_building', 'likes_count')
-    search_fields = ['town', 'address', 'owner']  # Поля для поиска: город, адрес, имя владельца
+    search_fields = ['town', 'address']  # Поля для поиска: город, адрес
     readonly_fields = ['created_at', 'likes_count']
     list_editable = ('new_building',)
     list_filter = ('new_building',)
-    inlines = [ComplaintInline, LikeInline]
+    inlines = [ComplaintInline, LikeInline, OwnerInline]
 
 
 # admin.site.register(Flat, FlatAdmin)

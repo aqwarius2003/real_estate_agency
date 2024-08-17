@@ -90,7 +90,7 @@ class Owner(models.Model):
     owner_pure_phone = PhoneNumberField('Нормализованный номер владельца', region="RU", blank=True)
     flat = models.ManyToManyField(
         Flat,
-        related_name='flat_owners',
+        related_name='owners',
         verbose_name='Квартиры в собственности'
     )
 

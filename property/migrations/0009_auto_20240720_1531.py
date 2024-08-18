@@ -9,19 +9,12 @@ def copy_phone_numbers(apps, schema_editor):
     for flat in Flat.objects.all():
         if flat.owners_phonenumber:
             normalized_phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
-            # if phonenumbers.is_valid_number(normalized_phone):
-            # но лучше тогда проверяются номера только для РФ, исключается номера из КЗ или типа +77000000000
             if phonenumbers.is_valid_number_for_region(normalized_phone, 'RU'):
                 flat.owner_pure_phone = normalized_phone
             else:
                 flat.owner_pure_phone = ''
             flat.save()
 
-# def move_backward(apps, schema_editor):
-#     Flat = apps.get_model('property', 'Flat')
-#     for flat in Flat.objects.all():
-#         flat.owner_pure_phone = ''
-#         flat.save()
 
 class Migration(migrations.Migration):
 

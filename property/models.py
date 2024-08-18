@@ -74,11 +74,11 @@ class Complaint(models.Model):
 
 class Like(models.Model):
     user = models.ForeignKey(User,
-                             on_delete=models.CASCADE)  # или on_delete=models.SET_NULL, null=True? как правильнее?
-    flat = models.ForeignKey(Flat, on_delete=models.CASCADE)  # Квартира, которой поставлен лайк
+                             on_delete=models.CASCADE)
+    flat = models.ForeignKey(Flat, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('user', 'flat')  # гарантирует - пользователь может лайкнуть одну квартиру только один раз
+        unique_together = ('user', 'flat')
 
     def __str__(self):
         return f'{self.user.username} лайкнул {self.flat.address}'
@@ -88,9 +88,9 @@ class Owner(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200, db_index=True)
     owners_phonenumber = models.CharField('Номер владельца', max_length=20, db_index=True)
     owner_pure_phone = PhoneNumberField('Нормализованный номер владельца', region="RU", blank=True)
-    flat = models.ManyToManyField(
+    flats = models.ManyToManyField(
         Flat,
-        related_name='owners',
+        related_name='owned_by',
         verbose_name='Квартиры в собственности'
     )
 

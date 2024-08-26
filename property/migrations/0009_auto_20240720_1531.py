@@ -6,7 +6,7 @@ import phonenumbers
 def copy_phone_numbers(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
 
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.all.iterator():
         if not flat.owners_phonenumber:
             continue
 

@@ -3,18 +3,16 @@
 from django.db import migrations
 import phonenumbers
 
-
 def copy_phone_numbers(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
-        if flat.owners_phonenumber:
-            normalized_phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
-            if phonenumbers.is_valid_number_for_region(normalized_phone, 'RU'):
-                flat.owner_pure_phone = normalized_phone
-            else:
-                flat.owner_pure_phone = ''
-            flat.save()
 
+    for flat in Flat.objects.all():
+        if not flat.owners_phonenumber:
+            continue
+
+        normalized_phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
+        flat.owner_pure_phone = normalized_phone if phonenumbers.is_valid_number_for_region(normalized_phone, 'RU') else ''
+        flat.save()
 
 class Migration(migrations.Migration):
 

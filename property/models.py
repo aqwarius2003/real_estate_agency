@@ -60,8 +60,9 @@ class Flat(models.Model):
 
 
 class Complaint(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Кто жаловался')
-    flat = models.ForeignKey('Flat', on_delete=models.CASCADE, verbose_name='Квартира, на которую пожаловались')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Кто жаловался', related_name='complaints')
+    flat = models.ForeignKey('Flat', on_delete=models.CASCADE, verbose_name='Квартира, на которую пожаловались',
+                             related_name='complaints')
     text = models.TextField('Текст жалобы')
 
     class Meta:
@@ -74,8 +75,8 @@ class Complaint(models.Model):
 
 class Like(models.Model):
     user = models.ForeignKey(User,
-                             on_delete=models.CASCADE)
-    flat = models.ForeignKey(Flat, on_delete=models.CASCADE)
+                             on_delete=models.CASCADE, related_name='user_likes')
+    flat = models.ForeignKey(Flat, on_delete=models.CASCADE, related_name='flat_likes')
 
     class Meta:
         unique_together = ('user', 'flat')
@@ -90,7 +91,7 @@ class Owner(models.Model):
     pure_phone = PhoneNumberField('Нормализованный номер владельца', region="RU", blank=True)
     flats = models.ManyToManyField(
         Flat,
-        related_name='owned_by',
+        related_name='owners',
         verbose_name='Квартиры в собственности'
     )
 

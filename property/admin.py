@@ -20,7 +20,7 @@ class Meta:
 
 
 class OwnerInline(admin.TabularInline):
-    model = Owner.flat.through
+    model = Owner.flats.through
     raw_id_fields = ('owner',)
     extra = 0
     verbose_name = 'Владелец'
@@ -53,5 +53,6 @@ class LikeAdmin(admin.ModelAdmin):
 
 @admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'owners_phonenumber', 'owner_pure_phone')
-    raw_id_fields = ('flat',)
+    list_display = ('owner', 'phonenumber', 'pure_phone')
+    raw_id_fields = ('flats',)
+

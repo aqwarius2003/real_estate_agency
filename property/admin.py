@@ -30,7 +30,7 @@ class OwnerInline(admin.TabularInline):
 @admin.register(Flat)
 class FlatAdmin(admin.ModelAdmin):
     list_display = ('town', 'address', 'new_building', 'likes_count')
-    search_fields = ['town', 'address']  # Поля для поиска: город, адрес
+    search_fields = ['town', 'address']
     readonly_fields = ['created_at', 'likes_count']
     list_editable = ('new_building',)
     list_filter = ('new_building',)
@@ -40,14 +40,13 @@ class FlatAdmin(admin.ModelAdmin):
 @admin.register(Complaint)
 class ComplaintAdmin(admin.ModelAdmin):
     list_display = ('user', 'flat', 'text')
-    raw_id_fields = ('flat',)  # raw_id_fields для поля ForeignKey flat
+    raw_id_fields = ('flat',)
     verbose_name = 'Жалоба'
     verbose_name_plural = 'Жалобы'
 
 
 @admin.register(Like)
 class LikeAdmin(admin.ModelAdmin):
-    # list_display = ('user', 'flat')
     raw_id_fields = ('user', 'flat')
 
 

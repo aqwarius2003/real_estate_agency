@@ -52,6 +52,6 @@ class LikeAdmin(admin.ModelAdmin):
 
 @admin.register(Owner)
 class OwnerAdmin(admin.ModelAdmin):
-    list_display = ('owner', 'phonenumber', 'pure_phone')
+    list_display = ('name', 'phonenumber', 'pure_phone')
     raw_id_fields = ('flats',)
 

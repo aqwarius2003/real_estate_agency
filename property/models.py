@@ -96,7 +96,7 @@ class Owner(models.Model):
     )
 
     def __str__(self) -> str:
-        return f'{self.owner}'
+        return self.owner'
 
     class Meta:
         verbose_name = 'Владелец'

@@ -36,6 +36,11 @@ class FlatAdmin(admin.ModelAdmin):
     list_filter = ('new_building',)
     inlines = [ComplaintInline, LikeInline, OwnerInline]
 
+    def likes_count(self, obj):
+        return obj.likes_count
+
+    likes_count.short_description = 'Количество лайков'
+
 
 @admin.register(Complaint)
 class ComplaintAdmin(admin.ModelAdmin):
@@ -54,4 +59,3 @@ class LikeAdmin(admin.ModelAdmin):
 class OwnerAdmin(admin.ModelAdmin):
     list_display = ('name', 'phonenumber', 'pure_phone')
     raw_id_fields = ('flats',)
-

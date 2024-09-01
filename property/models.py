@@ -48,15 +48,15 @@ class Flat(models.Model):
         db_index=True)
     new_building = models.BooleanField(verbose_name='New_building',
                                        null=True, blank=True)
-    likes = models.ManyToManyField(User, through='Like', blank=True, related_name='liked_flates',
-                                   verbose_name='Кто лайкнул', )
+    likes_by = models.ForeignKey(User, blank=True, null=True, related_name='liked_flats', on_delete=models.CASCADE,
+                                 verbose_name='Кто лайкнул')
 
     @property
     def likes_count(self):
-        return self.likes.count()
+        return self.flat_likes.count()
 
     def __str__(self):
-        return f'{self.town}, {self.address} ({self.price}р.)'
+        return f'{self.town}, {self.address} ({self.price} р.)'
 
 
 class Complaint(models.Model):
@@ -75,7 +75,7 @@ class Complaint(models.Model):
 
 class Like(models.Model):
     user = models.ForeignKey(User,
-                             on_delete=models.CASCADE, related_name='user_likes')
+                             on_delete=models.CASCADE, related_name='likes')
     flat = models.ForeignKey(Flat, on_delete=models.CASCADE, related_name='flat_likes')
 
     class Meta:
@@ -96,7 +96,7 @@ class Owner(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.owner'
+        return self.name
 
     class Meta:
         verbose_name = 'Владелец'

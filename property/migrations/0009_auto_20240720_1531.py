@@ -6,16 +6,25 @@ import phonenumbers
 def copy_phone_numbers(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
 
-    for flat in Flat.objects.all.iterator():
+    for flat in Flat.objects.iterator():
         if not flat.owners_phonenumber:
+            flat.owner_pure_phone = None
+            flat.save()
             continue
 
-        normalized_phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
-        flat.owner_pure_phone = normalized_phone if phonenumbers.is_valid_number_for_region(normalized_phone, 'RU') else ''
+        try:
+            normalized_phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
+            if phonenumbers.is_valid_number_for_region(normalized_phone, 'RU'):
+                flat.owner_pure_phone = normalized_phone
+            else:
+                flat.owner_pure_phone = None
+        except phonenumbers.NumberParseException:
+            flat.owner_pure_phone = None
+
         flat.save()
 
-class Migration(migrations.Migration):
 
+class Migration(migrations.Migration):
     dependencies = [
         ('property', '0008_flat_owner_pure_phone'),
     ]

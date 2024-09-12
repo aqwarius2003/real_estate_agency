@@ -87,7 +87,7 @@ class Like(models.Model):
 
 class Owner(models.Model):
     name = models.CharField('ФИО владельца', max_length=200, db_index=True, db_column='owner')
-    phonenumber = models.CharField('Номер владельца', max_length=20, db_index=True)
+    phonenumber = models.CharField('Номер владельца', max_length=20, db_index=True, null=True)
     pure_phone = PhoneNumberField('Нормализованный номер владельца', region="RU", blank=True)
     flats = models.ManyToManyField(
         Flat,

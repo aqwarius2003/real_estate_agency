@@ -51,12 +51,12 @@ class Flat(models.Model):
     likes_by = models.ForeignKey(User, blank=True, null=True, related_name='liked_flats', on_delete=models.CASCADE,
                                  verbose_name='Кто лайкнул')
 
+    def __str__(self):
+        return f'{self.town}, {self.address} ({self.price} р.)'
+
     @property
     def likes_count(self):
         return self.flat_likes.count()
-
-    def __str__(self):
-        return f'{self.town}, {self.address} ({self.price} р.)'
 
 
 class Complaint(models.Model):
@@ -95,9 +95,9 @@ class Owner(models.Model):
         verbose_name='Квартиры в собственности'
     )
 
-    def __str__(self) -> str:
-        return self.name
-
     class Meta:
         verbose_name = 'Владелец'
         verbose_name_plural = 'Владельцы'
+
+    def __str__(self) -> str:
+        return self.name

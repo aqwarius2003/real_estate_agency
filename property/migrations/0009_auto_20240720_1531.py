@@ -9,10 +9,6 @@ def copy_phone_numbers(apps, schema_editor):
     for flat in Flat.objects.iterator():
         if not flat.owners_phonenumber:
             continue
-        #
-        # normalized_phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
-        # flat.owner_pure_phone = normalized_phone if phonenumbers.is_valid_number_for_region(normalized_phone, 'RU') else ''
-        # flat.save()
 
         try:
             normalized_phone = phonenumbers.parse(flat.owners_phonenumber, 'RU')
